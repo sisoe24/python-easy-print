@@ -70,7 +70,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | `python-easy-print.easyJumpPrevious`  | `ctrl+shift+l k` |
 | `python-easy-print.commentPrintLines` |                  |
 | `python-easy-print.deletePrintLines`  |                  |
-| `python-easy-print.easyPrintPy2`      |                  |
 | `python-easy-print.easyLogDebug`      |                  |
 | `python-easy-print.easyLogInfo`       |                  |
 | `python-easy-print.easyLogWarning`    |                  |

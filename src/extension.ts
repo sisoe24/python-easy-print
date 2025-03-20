@@ -1,12 +1,11 @@
-import * as vscode from "vscode";
-import * as utils from "./utils";
 import * as doc from "./document_parser";
+import * as vscode from "vscode";
 
+import { config } from "process";
+import { getConfig } from "./config";
 import { SelectedText } from "./selected_text";
 import { printConstructor } from "./print_constructor";
 import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./statements";
-import { getConfig } from "./config";
-import { config } from "process";
 
 export async function executeCommand(
     statement: string
@@ -74,13 +73,4 @@ export function activate(context: vscode.ExtensionContext): void {
             })
         );
     }
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand(
-            "python-easy-print.easyPrintPy2",
-            () => {
-                void utils.initPrintPython2();
-            }
-        )
-    );
 }

@@ -119,11 +119,6 @@
         "enablement": "resourceLangId == python"
       },
       {
-        "command": "python-easy-print.easyPrintPy2",
-        "title": "Python EasyPrint: Add py2 header statement",
-        "enablement": "resourceLangId == python"
-      },
-      {
         "command": "python-easy-print.commentPrintLines",
         "title": "Python EasyPrint: comment",
         "enablement": "resourceLangId == python"
