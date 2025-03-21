@@ -38,7 +38,7 @@ export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
         );
 
         lines.push({
-            text: text,
+            text,
             range: new vscode.Range(startPos, line.range.end),
             rangeToNewLine: line.rangeIncludingLineBreak,
         });

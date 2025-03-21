@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const statement of Object.values(PRINT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(statement.command, () => {
-                void executePrintCommand(statement.formatString);
+                executePrintCommand(statement.formatString);
             })
         );
     }
@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [action, command] of Object.entries(DOCUMENT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                void executeDocumentCommand(action);
+                executeDocumentCommand(action);
             })
         );
     }

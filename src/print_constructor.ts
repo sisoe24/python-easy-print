@@ -151,15 +151,15 @@ export class PlaceholdersConverter {
     }
 
     private convertLog(): string {
-        let s = this.statement.replace("{logger}", this.data.getLogger());
+        let loggerStatement = this.statement.replace("{logger}", this.data.getLogger());
 
         if (this.data.config.get("logging.useRepr")) {
-            s = s.replace("{#text}", "repr({text})");
+            loggerStatement = loggerStatement.replace("{#text}", "repr({text})");
         } else {
-            s = s.replace("{#text}", "{text}");
+            loggerStatement = loggerStatement.replace("{#text}", "{text}");
         }
 
-        return s;
+        return loggerStatement;
     }
 
     private convertPrint(): string {
@@ -176,15 +176,15 @@ export class PlaceholdersConverter {
         // when no placeholders are present, we need to replace the {@} with a space
         const replaceToken = placeholders ? "{@}" : "{@} ";
 
-        let s = this.statement
+        let formattedStatement = this.statement
             .replace(replaceToken, placeholders)
             .replace("{symbol}", this.data.getSymbol());
 
         if (this.data.config.get("prints.printToNewLine")) {
-            s = s.split(":'").join(":\\n'");
+            formattedStatement = formattedStatement.split(":'").join(":\\n'");
         }
 
-        return s;
+        return formattedStatement;
     }
 
     convert(): string {
