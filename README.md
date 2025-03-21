@@ -43,7 +43,7 @@ Quick Commands to generate Python's most useful prints in Visual Studio Code.
 
 Manually select a piece of text or hover over it with the cursor and use one of the commands provided.
 
-![Usage](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/print.gif)
+![Usage](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/resources/images/print.gif)
 
 ## 1.3. Commands & Key bindings
 
@@ -257,16 +257,20 @@ executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 
 Logging
 
-![Logging](/images/logging.gif)
+![Logging](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/resources/images/logging.gif)
 
 Comment, Uncomment & Delete
 
-![DocumentExtras](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/comment_uncomment_delete.gif)
+![DocumentExtras](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/resources/images/comment_uncomment_delete.gif)
 
 Vscode Terminal Hyperlink
 
-![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/vscode_friendly2.gif)
+![VscodeTerminalHyperlink](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/resources/images/vscode_friendly.gif)
 
 Extra Selections
 
-![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/images/extra_selections.gif)
+![extraSelections](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/resources/images/extra_selections.gif)
+
+Multiple Prints
+
+![MultiplePrints](https://raw.githubusercontent.com/sisoe24/Python-Easy-Print/main/resources/images/multipleStatements.gif)
