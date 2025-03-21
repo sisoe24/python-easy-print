@@ -1,13 +1,13 @@
-import { executeDocumentCommand } from "./document_parser"; 
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
-import { getConfig } from "./config";
-import { SelectedText } from "./selected_text";
-import { printConstructor } from "./print_constructor";
-import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./commands";
-import { PythonSnippetCompletionProvider } from "./completion_items";
+import { DOCUMENT_COMMANDS, PRINT_COMMANDS } from './commands';
+import { PythonSnippetCompletionProvider } from './completion_items';
+import { getConfig } from './config';
+import { executeDocumentCommand } from './document_parser';
+import { printConstructor } from './print_constructor';
+import { SelectedText } from './selected_text';
 
-export async function executeCommand(
+export async function executePrintCommand(
     formatString: string
 ): Promise<string | void> {
     const editor = vscode.window.activeTextEditor;
@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const statement of Object.values(PRINT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(statement.command, () => {
-                void executeDocumentCommand(statement.formatString);
+                void executePrintCommand(statement.formatString);
             })
         );
     }
@@ -76,7 +76,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [action, command] of Object.entries(DOCUMENT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                void doc.executeCommand(action);
+                void executeDocumentCommand(action);
             })
         );
     }

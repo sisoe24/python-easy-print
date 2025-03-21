@@ -1,13 +1,13 @@
-import * as vscode from "vscode";
-import * as path from "path";
+import * as path from 'path';
+import * as vscode from 'vscode';
 
-import * as config from "./config";
+import { DEFAULTS, getConfig, Config } from './config';
 
 export class DataModel {
-    public config: config.Config;
+    public config: Config;
     public editor: vscode.TextEditor;
 
-    constructor(editor: vscode.TextEditor, config: config.Config) {
+    constructor(editor: vscode.TextEditor, config: Config) {
         this.config = config;
         this.editor = editor;
     }
@@ -40,21 +40,21 @@ export class DataModel {
     getLogger(): string {
         return this.config.get(
             "logging.customLogName",
-            config.DEFAULTS.customLogName
+            DEFAULTS.customLogName
         ) as string;
     }
 
     getSymbol(): string {
         return this.config.get(
             "prints.customSymbol",
-            config.DEFAULTS.printSymbol
+            DEFAULTS.printSymbol
         ) as string;
     }
 
     getCustomMessage(): string {
         return this.config.get(
             "prints.customStatement",
-            config.DEFAULTS.customStatement
+            DEFAULTS.customStatement
         ) as string;
     }
 
@@ -209,7 +209,7 @@ export function printConstructor(formatString: string) {
         throw new Error("No active text editor");
     }
 
-    const data = new DataModel(editor, config.getConfig());
+    const data = new DataModel(editor, getConfig());
     const converter = new PlaceholdersConverter(formatString, data);
     return converter.convert();
 }

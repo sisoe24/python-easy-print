@@ -1,9 +1,8 @@
-import * as vscode from "vscode";
+import * as vscode from 'vscode';
 
-import * as config from "./config";
-import { PRINT_COMMANDS } from "./commands";
-import { DataModel, PlaceholdersConverter } from "./print_constructor";
-
+import { PRINT_COMMANDS } from './commands';
+import { getConfig } from './config';
+import { DataModel, PlaceholdersConverter } from './print_constructor';
 
 export class PythonSnippetCompletionProvider
     implements vscode.CompletionItemProvider
@@ -35,7 +34,7 @@ export class PythonSnippetCompletionProvider
             throw new Error("No active text editor");
         }
 
-        const data = new DataModel(editor, config.getConfig());
+        const data = new DataModel(editor, getConfig());
 
         const items: vscode.CompletionItem[] = [];
         for (const [k, v] of Object.entries(PRINT_COMMANDS)) {

@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import * as config from "./config";
+
+import { DEFAULTS, getConfig } from "./config";
 
 type LineObject = {
     text: string;
@@ -16,9 +17,7 @@ type LineObject = {
 export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
     const { document } = editor;
 
-    const symbol = config
-        .getConfig()
-        .get("prints.customSymbol", config.DEFAULTS.printSymbol);
+    const symbol = getConfig().get("prints.customSymbol", DEFAULTS.printSymbol);
 
     const lines = [];
     const matchPattern = new RegExp(`print\\(['"]${symbol}`);
