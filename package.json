@@ -2,7 +2,7 @@
   "name": "python-easy-print",
   "displayName": "Python Easy Print",
   "description": "Easy commands for some of Python most useful prints.",
-  "version": "0.9.0",
+  "version": "0.10.0",
   "publisher": "virgilsisoe",
   "icon": "images/python_icon_256px.png",
   "license": "MIT",
@@ -37,7 +37,8 @@
     "log",
     "debug",
     "repr",
-    "pep"
+    "pep",
+    "postfix"
   ],
   "engines": {
     "vscode": "^1.62.0"
@@ -81,6 +82,11 @@
       {
         "command": "python-easy-print.easyPrintId",
         "title": "Python EasyPrint: id",
+        "enablement": "resourceLangId == python"
+      },
+      {
+        "command": "python-easy-print.easyPrintLen",
+        "title": "Python EasyPrint: len",
         "enablement": "resourceLangId == python"
       },
       {
