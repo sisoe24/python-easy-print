@@ -18,3 +18,5 @@ demo
 coverage
 resources/images
 .deepsource.toml
+changelog.md
+.pre-commit-config.yaml

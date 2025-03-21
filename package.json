@@ -4,7 +4,7 @@
   "description": "Easy commands for some of Python most useful prints.",
   "version": "0.10.0",
   "publisher": "virgilsisoe",
-  "icon": "images/python_icon_256px.png",
+  "icon": "resources/icons/python_icon_256px.png",
   "license": "MIT",
   "galleryBanner": {
     "color": "#347AB4",
@@ -50,7 +50,7 @@
   "activationEvents": [
     "onLanguage:python"
   ],
-  "main": "./out/extension.js",
+  "main": "./out/main.js",
   "contributes": {
     "commands": [
       {
@@ -242,12 +242,16 @@
     }
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
     "compile": "tsc -p ./",
-    "watch": "tsc -watch -p ./",
-    "pretest": "npm run compile && npm run lint",
+    "esbuild": "npm run esbuild-base -- --sourcemap",
+    "esbuild-base": "esbuild ./src/extension.ts --bundle --outfile=out/main.js --external:vscode --external:keyv --format=cjs --platform=node --log-level=debug",
+    "esbuild-watch": "npm run esbuild-base -- --sourcemap --watch",
+    "test-compile": "tsc -p ./",
+    "vscode:prepublish": "npm run esbuild-base -- --minify",
     "lint": "eslint src --ext ts",
-    "test": "node ./out/test/runTest.js"
+    "pretest": "npm run compile && npm run lint",
+    "test": "node ./out/test/runTest.js",
+    "watch": "tsc -watch -p ./"
   },
   "devDependencies": {
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
@@ -258,6 +262,7 @@
     "@typescript-eslint/eslint-plugin": "^5.3.1",
     "@typescript-eslint/parser": "^5.3.1",
     "choma": "^1.2.1",
+    "esbuild": "^0.25.1",
     "eslint": "^8.2.0",
     "glob": "^7.2.0",
     "mocha": "^9.1.3",
