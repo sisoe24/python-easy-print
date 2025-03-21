@@ -1,4 +1,4 @@
-import * as doc from "./document_parser";
+import { executeDocumentCommand } from "./document_parser"; 
 import * as vscode from "vscode";
 
 import { getConfig } from "./config";
@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const statement of Object.values(PRINT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(statement.command, () => {
-                void executeCommand(statement.formatString);
+                void executeDocumentCommand(statement.formatString);
             })
         );
     }

@@ -166,7 +166,7 @@ export function jumpPrintNext(editor: vscode.TextEditor): void {
  * If action is not valid will throw an error.
  * @returns
  */
-export function executeCommand(action: string): void {
+export function executeDocumentCommand(action: string): void {
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {
