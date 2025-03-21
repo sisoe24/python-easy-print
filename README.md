@@ -251,7 +251,7 @@ executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 ## 1.7. Known Issues
 
 - When using the delete or comment commands, the extension will ignore the `help` statement and the `custom` statement.
-- Temporary removed the test suite 
+- Temporary removed the test suite
 
 ## 1.8 Demo
 
