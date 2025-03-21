@@ -8,6 +8,7 @@ enum PrintStatements {
     type = "type",
     dir = "dir",
     repr = "repr",
+    len = "len",
     help = "help",
     id = "id",
     custom = "custom",
@@ -33,6 +34,10 @@ const PRINT_STATEMENTS: Record<PrintStatements, Statement> = {
     [PrintStatements.id]: {
         command: "python-easy-print.easyPrintId",
         statement: "print('{symbol} {@} {text} id:', id({text}))",
+    },
+    [PrintStatements.len]: {
+        command: "python-easy-print.easyPrintLen",
+        statement: "print('{symbol} {@} {text} len:', len({text}))",
     },
     [PrintStatements.help]: {
         command: "python-easy-print.easyHelp",
