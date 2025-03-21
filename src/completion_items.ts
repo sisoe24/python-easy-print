@@ -1,7 +1,7 @@
 import * as vscode from "vscode";
 
 import * as config from "./config";
-import { PRINT_COMMANDS } from "./statements";
+import { PRINT_COMMANDS } from "./commands";
 import { DataModel, PlaceholdersConverter } from "./print_constructor";
 
 
@@ -44,7 +44,7 @@ export class PythonSnippetCompletionProvider
                 vscode.CompletionItemKind.Snippet
             );
 
-            const converter = new PlaceholdersConverter(v.statement, data);
+            const converter = new PlaceholdersConverter(v.formatString, data);
             item.insertText = new vscode.SnippetString(
                 converter.convert().replace(/\{text\}/g, variableName)
             );

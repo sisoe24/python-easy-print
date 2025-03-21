@@ -203,13 +203,13 @@ export class PlaceholdersConverter {
  *
  * @returns the template statement: `print("➡ {text} :", {text})`
  */
-export function printConstructor(statement: string) {
+export function printConstructor(formatString: string) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         throw new Error("No active text editor");
     }
 
     const data = new DataModel(editor, config.getConfig());
-    const converter = new PlaceholdersConverter(statement, data);
+    const converter = new PlaceholdersConverter(formatString, data);
     return converter.convert();
 }

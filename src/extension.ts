@@ -4,11 +4,11 @@ import * as vscode from "vscode";
 import { getConfig } from "./config";
 import { SelectedText } from "./selected_text";
 import { printConstructor } from "./print_constructor";
-import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./statements";
+import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./commands";
 import { PythonSnippetCompletionProvider } from "./completion_items";
 
 export async function executeCommand(
-    statement: string
+    formatString: string
 ): Promise<string | void> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -23,7 +23,7 @@ export async function executeCommand(
     }
 
     if (getConfig().get("prints.useDoubleQuotes")) {
-        statement = statement.replace(/'/g, '"');
+        formatString = formatString.replace(/'/g, '"');
     }
 
     for (const match of text) {
@@ -35,7 +35,7 @@ export async function executeCommand(
         await vscode.commands
             .executeCommand("editor.action.insertLineAfter")
             .then(() => {
-                const stringStatement = printConstructor(statement);
+                const stringStatement = printConstructor(formatString);
 
                 const insertText = stringStatement.replace(/\{text\}/g, match);
 
@@ -67,7 +67,7 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [key, statement] of Object.entries(PRINT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(statement.command, () => {
-                executeCommand(statement.statement);
+                executeCommand(statement.formatString);
             })
         );
     }
