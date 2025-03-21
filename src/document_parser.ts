@@ -1,5 +1,6 @@
 import * as vscode from "vscode";
-import * as config from "./config";
+
+import { DEFAULTS, getConfig } from "./config";
 
 type LineObject = {
     text: string;
@@ -16,9 +17,7 @@ type LineObject = {
 export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
     const { document } = editor;
 
-    const symbol = config
-        .getConfig()
-        .get("prints.customSymbol", config.DEFAULTS.printSymbol);
+    const symbol = getConfig().get("prints.customSymbol", DEFAULTS.printSymbol);
 
     const lines = [];
     const matchPattern = new RegExp(`print\\(['"]${symbol}`);
@@ -39,7 +38,7 @@ export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
         );
 
         lines.push({
-            text: text,
+            text,
             range: new vscode.Range(startPos, line.range.end),
             rangeToNewLine: line.rangeIncludingLineBreak,
         });
@@ -166,7 +165,7 @@ export function jumpPrintNext(editor: vscode.TextEditor): void {
  * If action is not valid will throw an error.
  * @returns
  */
-export function executeCommand(action: string): void {
+export function executeDocumentCommand(action: string): void {
     const editor = vscode.window.activeTextEditor;
 
     if (!editor) {

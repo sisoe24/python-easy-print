@@ -1,15 +1,14 @@
-import * as vscode from "vscode";
-import * as utils from "./utils";
-import * as doc from "./document_parser";
+import * as vscode from 'vscode';
 
-import { SelectedText } from "./selected_text";
-import { printConstructor } from "./print_constructor";
-import { PRINT_COMMANDS, DOCUMENT_COMMANDS } from "./statements";
-import { getConfig } from "./config";
-import { config } from "process";
+import { DOCUMENT_COMMANDS, PRINT_COMMANDS } from './commands';
+import { PythonSnippetCompletionProvider } from './completion_items';
+import { getConfig } from './config';
+import { executeDocumentCommand } from './document_parser';
+import { printConstructor } from './print_constructor';
+import { SelectedText } from './selected_text';
 
-export async function executeCommand(
-    statement: string
+export async function executePrintCommand(
+    formatString: string
 ): Promise<string | void> {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
@@ -17,14 +16,14 @@ export async function executeCommand(
     }
 
     const selectedText = new SelectedText(editor);
-    const text = selectedText.getText();
 
+    const text = selectedText.getText();
     if (!text) {
         return;
     }
 
     if (getConfig().get("prints.useDoubleQuotes")) {
-        statement = statement.replace(/'/g, "\"");
+        formatString = formatString.replace(/'/g, '"');
     }
 
     for (const match of text) {
@@ -36,8 +35,7 @@ export async function executeCommand(
         await vscode.commands
             .executeCommand("editor.action.insertLineAfter")
             .then(() => {
-
-                const stringStatement = printConstructor(statement);
+                const stringStatement = printConstructor(formatString);
 
                 const insertText = stringStatement.replace(/\{text\}/g, match);
 
@@ -57,11 +55,19 @@ export async function executeCommand(
 }
 
 export function activate(context: vscode.ExtensionContext): void {
+    context.subscriptions.push(
+        vscode.languages.registerCompletionItemProvider(
+            "python",
+            new PythonSnippetCompletionProvider(),
+            "."
+        )
+    );
+
     // Print Commands
-    for (const [key, statement] of Object.entries(PRINT_COMMANDS)) {
+    for (const statement of Object.values(PRINT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(statement.command, () => {
-                executeCommand(statement.statement);
+                executePrintCommand(statement.formatString);
             })
         );
     }
@@ -70,17 +76,8 @@ export function activate(context: vscode.ExtensionContext): void {
     for (const [action, command] of Object.entries(DOCUMENT_COMMANDS)) {
         context.subscriptions.push(
             vscode.commands.registerCommand(command, () => {
-                void doc.executeCommand(action);
+                executeDocumentCommand(action);
             })
         );
     }
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand(
-            "python-easy-print.easyPrintPy2",
-            () => {
-                void utils.initPrintPython2();
-            }
-        )
-    );
 }

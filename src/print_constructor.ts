@@ -1,13 +1,13 @@
-import * as vscode from "vscode";
-import * as path from "path";
+import * as path from 'path';
+import * as vscode from 'vscode';
 
-import * as config from "./config";
+import { DEFAULTS, getConfig, Config } from './config';
 
 export class DataModel {
-    public config: config.Config;
+    public config: Config;
     public editor: vscode.TextEditor;
 
-    constructor(editor: vscode.TextEditor, config: config.Config) {
+    constructor(editor: vscode.TextEditor, config: Config) {
         this.config = config;
         this.editor = editor;
     }
@@ -40,21 +40,21 @@ export class DataModel {
     getLogger(): string {
         return this.config.get(
             "logging.customLogName",
-            config.DEFAULTS.customLogName
+            DEFAULTS.customLogName
         ) as string;
     }
 
     getSymbol(): string {
         return this.config.get(
             "prints.customSymbol",
-            config.DEFAULTS.printSymbol
+            DEFAULTS.printSymbol
         ) as string;
     }
 
     getCustomMessage(): string {
         return this.config.get(
             "prints.customStatement",
-            config.DEFAULTS.customStatement
+            DEFAULTS.customStatement
         ) as string;
     }
 
@@ -151,15 +151,15 @@ export class PlaceholdersConverter {
     }
 
     private convertLog(): string {
-        let s = this.statement.replace("{logger}", this.data.getLogger());
+        let loggerStatement = this.statement.replace("{logger}", this.data.getLogger());
 
         if (this.data.config.get("logging.useRepr")) {
-            s = s.replace("{#text}", "repr({text})");
+            loggerStatement = loggerStatement.replace("{#text}", "repr({text})");
         } else {
-            s = s.replace("{#text}", "{text}");
+            loggerStatement = loggerStatement.replace("{#text}", "{text}");
         }
 
-        return s;
+        return loggerStatement;
     }
 
     private convertPrint(): string {
@@ -176,15 +176,15 @@ export class PlaceholdersConverter {
         // when no placeholders are present, we need to replace the {@} with a space
         const replaceToken = placeholders ? "{@}" : "{@} ";
 
-        let s = this.statement
+        let formattedStatement = this.statement
             .replace(replaceToken, placeholders)
             .replace("{symbol}", this.data.getSymbol());
 
         if (this.data.config.get("prints.printToNewLine")) {
-            s = s.split(":'").join(":\\n'");
+            formattedStatement = formattedStatement.split(":'").join(":\\n'");
         }
 
-        return s;
+        return formattedStatement;
     }
 
     convert(): string {
@@ -203,13 +203,13 @@ export class PlaceholdersConverter {
  *
  * @returns the template statement: `print("➡ {text} :", {text})`
  */
-export function printConstructor(statement: string) {
+export function printConstructor(formatString: string) {
     const editor = vscode.window.activeTextEditor;
     if (!editor) {
         throw new Error("No active text editor");
     }
 
-    const data = new DataModel(editor, config.getConfig());
-    const converter = new PlaceholdersConverter(statement, data);
+    const data = new DataModel(editor, getConfig());
+    const converter = new PlaceholdersConverter(formatString, data);
     return converter.convert();
 }

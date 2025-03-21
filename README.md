@@ -36,16 +36,10 @@ Quick Commands to generate Python's most useful prints in Visual Studio Code.
 - Quickly jump between prints made by the extension.
 - Custom command.
 - Comment, uncomment and delete statements made by the extension.
-- Quick Command for Python 2 declaration needed for Python 3 print function.
+- Postfix completions: type `variable.print` or any other available statement.
+
 
 ## 1.2. How to use
-
-> **NOTE**: If you use Python 2, you need to start your file with the following declaration or use the included command when using this extension. (More info for [encoding](https://www.python.org/dev/peps/pep-0263/) and [print function](https://docs.python.org/3/library/__future__.html) on the official documentation):
->
-> ```py
-> # coding: utf-8
-> from __future__ import print_function
-> ```
 
 Manually select a piece of text or hover over it with the cursor and use one of the commands provided.
 
@@ -70,7 +64,6 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 | `python-easy-print.easyJumpPrevious`  | `ctrl+shift+l k` |
 | `python-easy-print.commentPrintLines` |                  |
 | `python-easy-print.deletePrintLines`  |                  |
-| `python-easy-print.easyPrintPy2`      |                  |
 | `python-easy-print.easyLogDebug`      |                  |
 | `python-easy-print.easyLogInfo`       |                  |
 | `python-easy-print.easyLogWarning`    |                  |
@@ -258,8 +251,7 @@ executed on non-Python files, as long as the syntax is supported (e.g., `Lua`).
 ## 1.7. Known Issues
 
 - When using the delete or comment commands, the extension will ignore the `help` statement and the `custom` statement.
-- Temporarly removed the test suite 🤞
-- Fails to hover print arguments with attributes inside a callable. (e.g., `args` of `foo(obj.args)`)
+- Temporary removed the test suite
 
 ## 1.8 Demo
 

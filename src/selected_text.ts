@@ -1,5 +1,6 @@
-import * as vscode from "vscode";
-import * as config from "./config";
+import * as vscode from 'vscode';
+
+import { Config, getConfig } from './config';
 
 type BracketType = {
     opening: string;
@@ -58,7 +59,7 @@ export class SelectedText {
     lineText: string;
     lineNumber: number;
     cursorPosition: number;
-    config: config.Config;
+    config: Config;
 
     /**
      * Init method to initialize the selection.
@@ -67,7 +68,7 @@ export class SelectedText {
      */
     constructor(editor: vscode.TextEditor) {
         this.editor = editor;
-        this.config = config.getConfig();
+        this.config = getConfig();
 
         this.document = editor.document;
         this.selection = editor.selection;
@@ -102,7 +103,7 @@ export class SelectedText {
         ) {
             return "";
         }
- 
+
         let currentPos = endChar - 1;
         while (currentPos > 0) {
             if (!/^[0-9a-zA-Z_.()\\[\]'"]$/.test(this.lineText[currentPos])) {
@@ -206,7 +207,7 @@ export class SelectedText {
     private cleanText(text: string): string {
 
         // invert the quotes inside the selected text
-        if (config.getConfig().get("prints.useDoubleQuotes")) {
+        if (getConfig().get("prints.useDoubleQuotes")) {
             text = text.replace(/"/g, "'");
         } else {
             text = text.replace(/'/g, '"');

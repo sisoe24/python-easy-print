@@ -1,46 +1,51 @@
-type Statement = {
+type CommandData = {
     command: string;
-    statement: string;
+    formatString: string;
 };
 
-enum PrintStatements {
+enum PrintCommands {
     print = "print",
     type = "type",
     dir = "dir",
     repr = "repr",
+    len = "len",
     help = "help",
     id = "id",
     custom = "custom",
 }
 
-const PRINT_STATEMENTS: Record<PrintStatements, Statement> = {
-    [PrintStatements.print]: {
+const PRINT_MAP: Record<PrintCommands, CommandData> = {
+    [PrintCommands.print]: {
         command: "python-easy-print.easyPrint",
-        statement: "print('{symbol} {@} {text}:', {text})",
+        formatString: "print('{symbol} {@} {text}:', {text})",
     },
-    [PrintStatements.type]: {
+    [PrintCommands.type]: {
         command: "python-easy-print.easyPrintType",
-        statement: "print('{symbol} {@} {text} type:', type({text}))",
+        formatString: "print('{symbol} {@} {text} type:', type({text}))",
     },
-    [PrintStatements.dir]: {
+    [PrintCommands.dir]: {
         command: "python-easy-print.easyPrintDir",
-        statement: "print('{symbol} {@} {text} dir:', dir({text}))",
+        formatString: "print('{symbol} {@} {text} dir:', dir({text}))",
     },
-    [PrintStatements.repr]: {
+    [PrintCommands.repr]: {
         command: "python-easy-print.easyPrintRepr",
-        statement: "print('{symbol} {@} {text} repr:', repr({text}))",
+        formatString: "print('{symbol} {@} {text} repr:', repr({text}))",
     },
-    [PrintStatements.id]: {
+    [PrintCommands.id]: {
         command: "python-easy-print.easyPrintId",
-        statement: "print('{symbol} {@} {text} id:', id({text}))",
+        formatString: "print('{symbol} {@} {text} id:', id({text}))",
     },
-    [PrintStatements.help]: {
+    [PrintCommands.len]: {
+        command: "python-easy-print.easyPrintLen",
+        formatString: "print('{symbol} {@} {text} len:', len({text}))",
+    },
+    [PrintCommands.help]: {
         command: "python-easy-print.easyHelp",
-        statement: "help({text})",
+        formatString: "help({text})",
     },
-    [PrintStatements.custom]: {
+    [PrintCommands.custom]: {
         command: "python-easy-print.easyCustom",
-        statement: "{@}",
+        formatString: "{@}",
     },
 };
 
@@ -52,32 +57,32 @@ enum LogStatements {
     critical = "critical",
 }
 
-const LOG_STATEMENTS: Record<LogStatements, Statement> = {
+const LOGGING_MAP: Record<LogStatements, CommandData> = {
     [LogStatements.debug]: {
         command: "python-easy-print.easyLogDebug",
-        statement: "{logger}.debug('{text}: %s', {#text})",
+        formatString: "{logger}.debug('{text}: %s', {#text})",
     },
     [LogStatements.info]: {
         command: "python-easy-print.easyLogInfo",
-        statement: "{logger}.info('{text}: %s', {#text})",
+        formatString: "{logger}.info('{text}: %s', {#text})",
     },
     [LogStatements.warning]: {
         command: "python-easy-print.easyLogWarning",
-        statement: "{logger}.warning('{text}: %s', {#text})",
+        formatString: "{logger}.warning('{text}: %s', {#text})",
     },
     [LogStatements.error]: {
         command: "python-easy-print.easyLogError",
-        statement: "{logger}.error('{text}: %s', {#text})",
+        formatString: "{logger}.error('{text}: %s', {#text})",
     },
     [LogStatements.critical]: {
         command: "python-easy-print.easyLogCritical",
-        statement: "{logger}.critical('{text}: %s', {#text})",
+        formatString: "{logger}.critical('{text}: %s', {#text})",
     },
 };
 
 export const PRINT_COMMANDS = {
-    ...PRINT_STATEMENTS,
-    ...LOG_STATEMENTS,
+    ...PRINT_MAP,
+    ...LOGGING_MAP,
 };
 
 export const DOCUMENT_COMMANDS = {
