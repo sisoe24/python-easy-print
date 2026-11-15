@@ -2,7 +2,6 @@ import * as vscode from 'vscode';
 
 import { DOCUMENT_COMMANDS, PRINT_COMMANDS } from './commands';
 import { PythonSnippetCompletionProvider } from './completion_items';
-import { getConfig } from './config';
 import { executeDocumentCommand } from './document_parser';
 import { printConstructor } from './print_constructor';
 import { SelectedText } from './selected_text';
@@ -20,10 +19,6 @@ export async function executePrintCommand(
     const text = selectedText.getText();
     if (!text) {
         return;
-    }
-
-    if (getConfig().get("prints.useDoubleQuotes")) {
-        formatString = formatString.replace(/'/g, '"');
     }
 
     for (const match of text) {

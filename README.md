@@ -95,15 +95,15 @@ All commands are available by opening the Command Palette (`Command+Shift+P` on 
 
   If `true`, when _manually selecting_ multiple statements (e.g., `foo, bar`), print each one individually.
 
-- `pythonEasyPrint.printToNewLine`: `boolean`
+- `pythonEasyPrint.prints.printToNewLine`: `boolean`
 
   If `true`, it will insert a newline character inside the print
 
-- `pythonEasyPrint.customSymbol`: `string`
+- `pythonEasyPrint.prints.customSymbol`: `string`
 
   Modify the default Unicode symbol for the prints. It could be an emoji: 👉 (as symbol representation, not the Unicode code point).
 
-- `pythonEasyPrint.customStatement`: `string`
+- `pythonEasyPrint.prints.customStatement`: `string`
 
   A custom statement you can use with the `Python EasyPrint: custom` command. In addition to the placeholders mentioned in _Add Custom Message_, the following two placeholders are be available:
 

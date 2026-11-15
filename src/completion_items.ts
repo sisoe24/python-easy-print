@@ -31,7 +31,7 @@ export class PythonSnippetCompletionProvider
         }
         const editor = vscode.window.activeTextEditor;
         if (!editor) {
-            throw new Error("No active text editor");
+            return undefined;
         }
 
         const data = new DataModel(editor, getConfig());

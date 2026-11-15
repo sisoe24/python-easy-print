@@ -1,5 +1,21 @@
 # Change Log
 
+## [0.12.0] - 2026-11-15
+
+### Changed
+
+- The default print symbol is now 🐛. With the default symbol, the comment, delete and jump commands still find prints made with the old default (➡). To keep the old symbol, set `pythonEasyPrint.prints.customSymbol` to `➡`.
+
+### Fixed
+
+- Hovering an attribute inside a function call (`func(obj.attr)`) no longer includes the enclosing call in the print.
+- `useDoubleQuotes` now applies to the custom statement and to the postfix snippets, and works together with `printToNewLine`.
+- A custom symbol with regex characters (`*`, `+`, `.`) no longer breaks or misleads the comment, delete and jump commands.
+- Quotes inside a manual selection (`d['k']`) are now swapped like in hover mode, so the print is valid Python.
+- The `%F` placeholder now finds functions with return annotations or multi-line signatures.
+- The postfix snippet provider no longer throws when there is no active editor.
+- Fixed setting names in the README.
+
 ## [0.11.0] - 2024-02-20
 
 ### Added

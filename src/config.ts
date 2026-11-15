@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 
 export const DEFAULTS = {
-    printSymbol: "➡",
+    printSymbol: "🐛",
     customStatement: "print('\\n┌─ %w:%l - {text}\\n└─', {text})",
     customLogName: "logging",
 };
