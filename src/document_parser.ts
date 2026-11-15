@@ -17,10 +17,14 @@ type LineObject = {
 export function documentParser(editor: vscode.TextEditor): Array<LineObject> {
     const { document } = editor;
 
-    const symbol = getConfig().get("prints.customSymbol", DEFAULTS.printSymbol);
+    const symbol = getConfig().get("prints.customSymbol", DEFAULTS.printSymbol) as string;
 
     const lines = [];
-    const matchPattern = new RegExp(`print\\(['"]${symbol}`);
+    const escapedSymbol = symbol.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    // Still find prints made with the pre-0.12.0 default symbol.
+    const symbolPattern =
+        symbol === DEFAULTS.printSymbol ? `(${escapedSymbol}|➡)` : escapedSymbol;
+    const matchPattern = new RegExp(`print\\(['"]${symbolPattern}`);
 
     for (let l = 0; l <= document.lineCount - 1; ++l) {
         const line = document.lineAt(l);

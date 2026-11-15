@@ -92,7 +92,7 @@ export class DataModel {
             const currentLineIndentation =
                 line.firstNonWhitespaceCharacterIndex;
 
-            const match = /def\s(\w+)\(.*\):/.exec(line.text);
+            const match = /def\s+(\w+)\s*\(/.exec(line.text);
             if (match && startLineIndentation > currentLineIndentation) {
                 return match[1];
             }
@@ -103,6 +103,24 @@ export class DataModel {
         }
 
         return "";
+    }
+
+    private placeholders?: Record<string, string>;
+
+    /**
+     * Placeholder values, computed once: the completion provider converts
+     * one statement per item with the same DataModel.
+     */
+    getPlaceholders(): Record<string, string> {
+        if (!this.placeholders) {
+            this.placeholders = {
+                "%f": this.getFilename(),
+                "%l": this.getLineNum(),
+                "%F": this.getFuncName(),
+                "%w": this.getWorkspacePath(),
+            };
+        }
+        return this.placeholders;
     }
 }
 
@@ -130,12 +148,7 @@ export class PlaceholdersConverter {
      * @returns the converted placeholder.
      */
     private convertPlaceholders(placeholders: string): string {
-        const placeholdersMap: { [key: string]: string } = {
-            "%f": this.data.getFilename(),
-            "%l": this.data.getLineNum(),
-            "%F": this.data.getFuncName(),
-            "%w": this.data.getWorkspacePath(),
-        };
+        const placeholdersMap = this.data.getPlaceholders();
 
         const placeholderMatch = placeholders.match(/%[flFw]/g);
 
@@ -188,10 +201,15 @@ export class PlaceholdersConverter {
     }
 
     convert(): string {
-        if (this.statement.includes("{logger}")) {
-            return this.convertLog();
+        const statement = this.statement.includes("{logger}")
+            ? this.convertLog()
+            : this.convertPrint();
+
+        // Last step, so the custom statement and printToNewLine get it too.
+        if (this.data.config.get("prints.useDoubleQuotes")) {
+            return statement.replace(/'/g, '"');
         }
-        return this.convertPrint();
+        return statement;
     }
 }
 
@@ -201,7 +219,7 @@ export class PlaceholdersConverter {
  * The statement could be a print statement or a logging statement based on the
  * statement type. Placeholders are also converted if present.
  *
- * @returns the template statement: `print("➡ {text} :", {text})`
+ * @returns the template statement: `print("🐛 {text} :", {text})`
  */
 export function printConstructor(formatString: string) {
     const editor = vscode.window.activeTextEditor;

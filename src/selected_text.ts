@@ -104,18 +104,27 @@ export class SelectedText {
             return "";
         }
 
-        let currentPos = endChar - 1;
-        while (currentPos > 0) {
-            if (!/^[0-9a-zA-Z_.()\\[\]'"]$/.test(this.lineText[currentPos])) {
-                ++currentPos;
+        // Walk left from the '.', stopping at an unmatched opening bracket:
+        // in `func(obj.attr)` the parent of `attr` is `obj`, not `func(obj`.
+        let start = startChar - 1;
+        let depth = 0;
+        while (start > 0) {
+            const char = this.lineText[start - 1];
+            if (char === ")" || char === "]") {
+                ++depth;
+            } else if (char === "(" || char === "[") {
+                if (depth === 0) {
+                    break;
+                }
+                --depth;
+            } else if (depth === 0 && !/[\w.'"]/.test(char)) {
                 break;
             }
-
-            --currentPos;
+            --start;
         }
 
         const lineRange = new vscode.Range(
-            new vscode.Position(this.lineNumber, currentPos),
+            new vscode.Position(this.lineNumber, start),
             new vscode.Position(this.lineNumber, endChar)
         );
 
@@ -233,7 +242,7 @@ export class SelectedText {
 
         if (selectedText) {
             if (this.config.get("multipleStatements")) {
-                return selectedText.split(",").map((s) => s.trim());
+                return selectedText.split(",").map((s) => this.cleanText(s));
             }
 
             return [this.cleanText(selectedText)];
