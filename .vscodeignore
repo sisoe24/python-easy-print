@@ -1,6 +1,8 @@
 .vscode/**
 .vscode-test/**
-out/test/**
+out/**
+!out/main.js
+eslint.config.mjs
 src/**
 .gitignore
 .yarnrc
@@ -20,3 +22,5 @@ resources/images
 .deepsource.toml
 changelog.md
 .pre-commit-config.yaml
+
+.github/**
