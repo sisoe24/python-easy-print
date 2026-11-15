@@ -242,7 +242,10 @@ export class SelectedText {
 
         if (selectedText) {
             if (this.config.get("multipleStatements")) {
-                return selectedText.split(",").map((s) => this.cleanText(s));
+                // `x: int` (a selected signature) prints `x`.
+                return selectedText
+                    .split(",")
+                    .map((s) => this.cleanText(s).replace(/^(\w+)\s*:.*$/, "$1"));
             }
 
             return [this.cleanText(selectedText)];
