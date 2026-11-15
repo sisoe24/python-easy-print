@@ -1,5 +1,12 @@
 # Change Log
 
+## [0.12.1] - 2026-11-15
+
+### Fixed
+
+- Postfix snippets on an attribute (`foo.bar.print`) now print `foo.bar`, not only `bar` ([#7](https://github.com/sisoe24/python-easy-print/issues/7)).
+- Selecting function arguments with type annotations (`x: int, y: str`) prints only the argument names ([#4](https://github.com/sisoe24/python-easy-print/issues/4)).
+
 ## [0.12.0] - 2026-11-15
 
 ### Changed

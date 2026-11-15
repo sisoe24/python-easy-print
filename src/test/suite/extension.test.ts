@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import * as vscode from 'vscode';
 
+import { PythonSnippetCompletionProvider } from '../../completion_items';
 import { Config } from '../../config';
 import { documentParser } from '../../document_parser';
 import { DataModel, PlaceholdersConverter } from '../../print_constructor';
@@ -126,6 +127,28 @@ suite("SelectedText selection", () => {
         const editor = await openEditor("d['k'], e['j']\n");
         editor.selection = new vscode.Selection(0, 0, 0, 14);
         assert.deepStrictEqual(new SelectedText(editor).getText(), ['d["k"]', 'e["j"]']);
+    });
+
+    test("drops type annotations", async () => {
+        const text = "x: int, y: str = 'a', d[a:b]";
+        const editor = await openEditor(text);
+        editor.selection = new vscode.Selection(0, 0, 0, text.length);
+        assert.deepStrictEqual(new SelectedText(editor).getText(), ["x", "y", "d[a:b]"]);
+    });
+});
+
+suite("PythonSnippetCompletionProvider", () => {
+    test("postfix keeps the parent object", async () => {
+        const editor = await openEditor("foo.bar.");
+        const position = new vscode.Position(0, 8);
+        const items = new PythonSnippetCompletionProvider().provideCompletionItems(
+            editor.document,
+            position
+        ) as vscode.CompletionItem[];
+        const print = items.find((i) => i.label === "print")!;
+
+        assert.ok((print.insertText as vscode.SnippetString).value.endsWith(", foo.bar)"));
+        assert.strictEqual(print.additionalTextEdits![0].range.start.character, 0);
     });
 });
 

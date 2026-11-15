@@ -23,7 +23,7 @@ export class PythonSnippetCompletionProvider
         const linePrefix = document
             .lineAt(position)
             .text.substring(0, position.character);
-        const match = linePrefix.match(/(\w+)\.$/) || [];
+        const match = linePrefix.match(/(\w+(?:\.\w+)*)\.$/) || [];
         const variableName = match[1];
 
         if (!variableName) {
